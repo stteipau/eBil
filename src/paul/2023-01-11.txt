@@ -1,3 +1,0 @@
-Installation MariaDB
-Einrichtung Datenbank
-Erstellung Tabelle "LoginData" + eintragen der Login-Daten
