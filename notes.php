@@ -1,5 +1,3 @@
-
-
 <html>
   <?php
     require 'src/functions.php';
@@ -8,10 +6,9 @@
       exit();
     }
   ?>
-  <head> 
+  <head>
     <title>Tagebucheinträge eBil</title>
   </head>
-
 
   <body>
     <div class="space-between">
@@ -31,7 +28,7 @@
       <div class="info-container">
         <div class="logged-in-as">
           Angemeldet als:
-          <div class="text-label"><?php echo $_COOKIE['user'];?></div>
+          <div class="text-label"><?php echo strtolower($_COOKIE['user']);?></div>
         </div>
         <form name="form" action="" method="post">
           <input class="loggout-btn" type="submit" name="logout" id="logout" value="ausloggen">
@@ -50,10 +47,17 @@
         //echo 'cDate:'.$_POST['cDate'].'<br>';
         //echo 'date:'.$_POST['date'].'<br>';
         if(isset($_POST['text'])){
-          $filepath ='src/'.$_COOKIE['user'].'/'.getCurrentDate().".txt";
-          $myfile = fopen($filepath, "w") or die("Unable to open file!");
-          fwrite($myfile,$_POST['text']);
-          fclose($myfile);
+          $db = new mysqli("10.10.30.40","root","Kennwort0","website");
+          $str = "SELECT * FROM Notes WHERE username='".$_COOKIE['user']."' and date='".getCurrentDate()."'";
+          $erg = $db->query($str);
+          if($erg->num_rows == 0){
+              print_r($db->connect_error);
+              $str = "INSERT INTO Notes VALUES(LOWER('". $_COOKIE['user']. "'),'".getCurrentDate() . "','".$_POST['text']."');";
+              $erg = $db->query($str);
+          }else if($erg->num_rows == 1){
+              $str = "UPDATE Notes SET text='".$_POST['text']. "' WHERE username='".$_COOKIE['user']."' and date='".getCurrentDate()."';";
+              $erg = $db->query($str);
+          }
         }
         function getCurrentDate(){
           if(isset($_POST['date']) && DateTime::createFromFormat('Y-m-d', $_POST['date']) !== false && $_POST['date']>='2022-11-16'){
@@ -69,25 +73,19 @@
       <form name="form" action="" method="post">
         <textarea class="tagebucheintrag" name="text" id="text" rows="30" cols="100"><?php
           //Richrige Dateipfad zusammenschuastern
-          $filepath ='src/'.$_COOKIE['user'].'/'.getCurrentDate().".txt";
-          if (!is_dir('src/'.$_COOKIE['user'])){    //wenn Ordner noch nicht existiert dann erstellen
-            mkdir('src/'.$_COOKIE['user'], 0777, true);
-          }
-
-          if(!($myfile = fopen($filepath, "r"))){
-            $myfile = fopen($filepath, "a") or die("Unable to open file!");
-            chmod($myfile,0777);
-            fclose($myfile);
-          }
-          echo fread($myfile,filesize($filepath));
-          fclose($myfile);
+            $db = new mysqli("10.10.30.40","root","Kennwort0","website");
+            $str = "SELECT * FROM Notes WHERE username='".$_COOKIE['user']."' and date='".getCurrentDate()."'";
+            $erg = $db->query($str);
+            if($erg->num_rows > 0){
+                $datensatz=$erg->fetch_assoc();
+                echo $datensatz['text'];
+            }
         ?></textarea>
         <input class="hidden" type="date" value="<?php echo getCurrentDate();?>" name="cDate" id="cDate">
         <br>
         <div class="container" style="margin-top:5px;"><input class="saveBtn" type="submit" value="Speichern" name="subText" id="subText"></div>
       </form>
     </div>
-
     
     <?php
       if(isset($_POST['logout'])){
