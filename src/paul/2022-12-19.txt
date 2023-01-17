@@ -1,2 +1,0 @@
-Komponentenrecherche (Reifen,Motor,MicroController) + Erstellung Rechner für Drehzahl des Motors
-Product-Backlog

@@ -1,3 +1,0 @@
-Bestellen einiger Komponenten des Autos (Raspberry PI, Akku, Motor, Motorsteuerung, Kamera, Ultraschallsensoren, Räder, Scheinwerfer, Micro-SD)
-Dokumentieren der Rechnungen
-Abziehen der Beträge vom PayPal-Konto
