@@ -17,6 +17,7 @@
 </body>
 
 <?php
+    require 'src/functions.php';
     //username per POST übergeben
     $username = $_POST["user"];
     if(isset($_POST["oldPW"]) && isset($_POST["newPW1"]) && isset($_POST["newPW2"])){

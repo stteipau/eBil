@@ -15,18 +15,13 @@ function checkf($userStr,$passwdStr){
 }
 
 function check($userStr,$passwdStr){
-    //echo "Hallo".$userStr.$passwdStr;
-    //echo "Yalla";
     $db = new mysqli("10.10.30.40","root","Kennwort0","website");
-    //echo "Yalla";
-    
     print_r($db->connect_error);
     echo "<br>";
 
     $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$userStr."');";
-    //echo "<br>".$str."<br>";
     $erg = $db->query($str);
-    //print_r($erg);
+
     if($erg->num_rows > 0){
         $datensatz=$erg->fetch_assoc();
         //Vergleichen
@@ -35,15 +30,9 @@ function check($userStr,$passwdStr){
             return true;
         }
     }
-    
+
     return false;
 }
-
-function checkff($userStr,$passwdStr){                      //sudo mysql -h localhost -u root
-    return false;
-}
-
-
 function pwReset($userStr, $passwdStr){
     $db = new mysqli("10.10.30.40","root","Kennwort0","website");
     print_r($db->connect_error);
