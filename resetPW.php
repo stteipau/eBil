@@ -6,7 +6,7 @@
 <body>
     <form name="form" action="" method="post">
         <label>Benutzername</label>
-        <input value="<?php echo $_COOKIE["user"];?>" name="user" id="user">
+        <input value="<?php echo $_COOKIE["user"];?>" name="user" id="user" required>
         <label> Altes Passwort: </label>
         <input type="text" name="oldPW" id="oldPW" required>
         <label> Neues Passwort: </label>
@@ -19,18 +19,11 @@
 <?php
     require 'src/functions.php';
     //username per POST übergeben
-    $username = "";
-    if(isset($_COOKIE["user"])){
-        $username = $_COOKIE["user"];
-    }else{
-        $_POST["user"];
-    }
-
-
     if(isset($_POST["oldPW"]) && isset($_POST["newPW1"]) && isset($_POST["newPW2"]) && isset($_POST["user"])){
         $oldPW = $_POST["oldPW"];
         $newPW1 = $_POST["newPW1"];
         $newPW2 = $_POST["newPW2"];
+        $username = $_POST["user"];
 
         //altes PW richtig?
         if(check($username, $oldPW)){
