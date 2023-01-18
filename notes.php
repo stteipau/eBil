@@ -30,9 +30,34 @@
           Angemeldet als:
           <div class="text-label"><?php echo strtolower($_COOKIE['user']);?></div>
         </div>
-        <form name="form" action="" method="post">
-          <input class="loggout-btn" type="submit" name="logout" id="logout" value="ausloggen">
-        </form>
+        <div class="justi-center">
+            <div class="" style="width:38%;">
+                <form name="form" action="" method="post" style="width:100%;"><!--style="width:40%; margin:0px;"-->
+                    <input type="submit" name="logout" id="logout" value="ausloggen" class="loggout-btn" style="width:100%; margin-left:0px;height:38px;"><!-- class="loggout-btn ttwoBtn" style="width:100%;"-->
+                </form>
+            </div>
+            <!--insg 80%-->
+            <!--
+            <form style="display: inline;" name="form1" action="resetPW.php" method="post">
+                <input style="margin-left:0px;" class="loggout-btn" type="submit" name="resetPWsub" id="resetPWsub" value="passwort<br>ändern">
+            </form>-->
+            <div class="loggout-btn" style="width:38%; margin-left:4%; height:38px;text-align:center;">
+                <a href="resetPW.php" style="text-decoration:none; color:#00e6ac;"><!--class="loggout-btn ttwoBtn" style="width:40%;"-->
+                    <div>Passwort<br>ändern</div>
+                </a>
+            </div>
+        </div>
+        <style>
+            .btn {
+
+            }
+
+            .justi-center{
+                justify-content:center;
+                display: flex;
+            }
+        </style>
+
       </div>
     </div>
 
@@ -97,9 +122,6 @@
         exit();
       }
     ?>
-
-    
-    
   </body>
 
 <script>
@@ -169,9 +191,8 @@
     border-radius:10px;
     border:2px solid #222222;
     /*padding:10px;*/
-    width:15%;
-    height:100px;
-    
+    width:17%;
+    height:105px;
   }
   .date-choice-container{
     background-color:#666666;
@@ -223,7 +244,7 @@
   }
   .loggout-btn{
     color:#00e6ac;
-    width:80%;
+    width:80%;/*80%*/
     margin-left:10%;
     border:none;
     border-radius:5px;

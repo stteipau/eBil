@@ -4,8 +4,9 @@
     <title>Passwort zurücksetzen</title>
 </head>
 <body>
-
     <form name="form" action="" method="post">
+        <label>Benutzername</label>
+        <input value="<?php echo $_COOKIE["user"];?>" name="user" id="user">
         <label> Altes Passwort: </label>
         <input type="text" name="oldPW" id="oldPW" required>
         <label> Neues Passwort: </label>
@@ -13,14 +14,20 @@
         <input type="text" name="newPW2" id="newPW2" required>
         <input type="submit" name="sub" id="sub" value="ändern">
     </form>
-
 </body>
 
 <?php
     require 'src/functions.php';
     //username per POST übergeben
-    $username = $_POST["user"];
-    if(isset($_POST["oldPW"]) && isset($_POST["newPW1"]) && isset($_POST["newPW2"])){
+    $username = "";
+    if(isset($_COOKIE["user"])){
+        $username = $_COOKIE["user"];
+    }else{
+        $_POST["user"];
+    }
+
+
+    if(isset($_POST["oldPW"]) && isset($_POST["newPW1"]) && isset($_POST["newPW2"]) && isset($_POST["user"])){
         $oldPW = $_POST["oldPW"];
         $newPW1 = $_POST["newPW1"];
         $newPW2 = $_POST["newPW2"];
