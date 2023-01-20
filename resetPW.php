@@ -87,12 +87,12 @@
         <input class="text-input" value="<?php echo $_COOKIE["user"];?>" name="user" id="user" required>
 
         <div class="text-tag"> Altes Passwort: </div>
-        <input class="text-input" type="text" name="oldPW" id="oldPW" required>
+        <input class="text-input" type="password" name="oldPW" id="oldPW" required>
 
         <div class="text-tag" style="margin-top:15px"> Neues Passwort: </div>
-        <input class="text-input" type="text" name="newPW1" id="newPW1" required>
+        <input class="text-input" type="password" name="newPW1" id="newPW1" required>
         <div class="text-tag">Passwort wiederholen:</div>
-        <input class="text-input" type="text" name="newPW2" id="newPW2" required>
+        <input class="text-input" type="password" name="newPW2" id="newPW2" required>
         <input style="margin-top:12px;" class="login-btn" type="submit" name="sub" id="sub" value="Bestätigen">
     </form>
     <div>
