@@ -1,7 +1,7 @@
 <html>
 <?php
 require 'src/functions.php';
-if(!check($_COOKIE['user'],$_COOKIE['passwd'])){
+if(!check($_COOKIE['user'],$_COOKIE['passwd'],false)){
     header("Location:login.php");
     exit();
 }

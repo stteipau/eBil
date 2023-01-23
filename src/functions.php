@@ -14,7 +14,7 @@ function checkf($userStr,$passwdStr){
     return false;
 }
 
-function check($userStr,$passwdStr){
+function check($userStr,$passwdStr,$hashIt){
     $db = new mysqli("10.10.30.40","root","Kennwort0","website");
     print_r($db->connect_error);
     echo "<br>";
@@ -25,7 +25,11 @@ function check($userStr,$passwdStr){
     if($erg->num_rows > 0){
         $datensatz=$erg->fetch_assoc();
         //Vergleichen
-        $inHash = crypt($passwdStr,$datensatz['salt']);
+        $inHash = $passwdStr;
+        if($hashIt == true){
+            $inHash = crypt($passwdStr,$datensatz['salt']);
+        }
+
         if($inHash === $datensatz['pwHash']){
             return true;
         }
@@ -51,5 +55,19 @@ function pwReset($userStr, $passwdStr){
     }else{
         return false;
     }
+}
+function getUserSalt($username){
+    $db = new mysqli("10.10.30.40","root","Kennwort0","website");
+    print_r($db->connect_error);
+    echo "<br>";
+
+    $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$username."');";
+    $erg = $db->query($str);
+
+    if($erg->num_rows > 0){
+        $datensatz=$erg->fetch_assoc();
+        return $datensatz['salt'];
+    }
+    return "xxx";
 }
 ?>

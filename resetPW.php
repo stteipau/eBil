@@ -108,7 +108,7 @@ if(isset($_POST["oldPW"]) && isset($_POST["newPW1"]) && isset($_POST["newPW2"]) 
     $username = $_POST["user"];
 
     //altes PW richtig?
-    if(check($username, $oldPW)){
+    if(check($username, $oldPW,true)){
         //neue PW's gleich?
         if(strcmp($newPW1, $newPW2) == 0){
             //Passwort reset
