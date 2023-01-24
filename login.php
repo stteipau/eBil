@@ -91,15 +91,15 @@
     <?php
     require 'src/functions.php';
     //echo "Hallo!";
-    if(check($_COOKIE['user'],$_COOKIE['passwd'],false)){
-        echo "Hilfe";
+    if(isset($_COOKIE['user']) && isset($_COOKIE['passwd']) &&  check($_COOKIE['user'],$_COOKIE['passwd'],false)){
+        //echo "Hilfe";
         header("Location:notes.php");
         exit();
     }else{
         //echo "Hilfe2";
-        setcookie('user', $_POST['user'], time()+ 60*60*24*1);
-        setcookie('passwd', crypt($_POST['passwd'],getUserSalt($_POST['user'])), time()+ 60*60*24*1);
-        if(check($_POST['user'],$_POST['passwd'],true)){
+        if(isset($_POST['user']) && isset($_POST['passwd']) && check($_POST['user'],$_POST['passwd'],true)){
+            setcookie('user', $_POST['user'], time()+ 60*60*24*1);
+            setcookie('passwd', crypt($_POST['passwd'],getUserSalt($_POST['user'])), time()+ 60*60*24*1);
             header("Location:notes.php");
             exit();
         }else{
