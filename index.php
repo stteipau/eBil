@@ -18,8 +18,11 @@
         ?>
     </head>
     <body>
-        <div class="header">
-
+        
+        <div class="header text_align_center">
+            <div class="header_logo">
+                <img src="src/logo.PNG">
+            </div>
             <div class="acc_container" onclick="console.log(document.getElementById('acc_toggle').checked);">
                 <input class="acc_toggle" id="acc_toggle" type="checkbox"/>
                 <label for="acc_toggle" class="for_acc_toggle">
@@ -85,7 +88,7 @@
                 <li><a class="menu__item" href="#">About us</a></li>
             </ul>
         </div>
-
+    
 
     </body>
 </html>
