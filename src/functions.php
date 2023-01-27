@@ -17,7 +17,6 @@ function checkf($userStr,$passwdStr){
 function check($userStr,$passwdStr,$hashIt){
     $db = new mysqli("10.10.30.40","root","Kennwort0","website");
     print_r($db->connect_error);
-    echo "<br>";
 
     $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$userStr."');";
     $erg = $db->query($str);
@@ -59,7 +58,6 @@ function pwReset($userStr, $passwdStr){
 function getUserSalt($username){
     $db = new mysqli("10.10.30.40","root","Kennwort0","website");
     print_r($db->connect_error);
-    echo "<br>";
 
     $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$username."');";
     $erg = $db->query($str);

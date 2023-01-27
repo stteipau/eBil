@@ -1,0 +1,114 @@
+
+/*
+text-farbe: #00e6ac
+dukel-grau: #3c3c3c
+firmen-farbe:#318890
+*/
+
+:root {
+    --text-color: #00e6ac;
+    --dark-grey:#1e1e1e;
+    --font:'Franklin Gothic Medium';
+    --button-hover-color:#4d4d4d;
+    --button-active-color:#595959;
+    --button-default-color:#3c3c3c;
+    --login-window-width:200px;
+    --company-color:#318890;
+}
+  
+.header{
+    width:100%;
+    height:55px;
+    background-color:var(--company-color);
+    margin:0;
+}
+.acc_container{
+    float:right;
+    height:100%;
+}
+.acc_svg{
+    transform:scale(0.6,0.6);
+    height:100%;
+    cursor:pointer;
+}
+.for_acc_toggle{
+    font-size:17px;
+    cursor: pointer;
+    color: var(--dark-grey);
+}
+.acc_toggle{
+    opacity: 0;
+}
+.acc_toggle:checked ~ .login_window{ 
+    left:calc(100% - var(--login-window-width));
+}
+.login_window{
+    transition-duration:1s;
+    width:var(--login-window-width);
+    background-color:#666666;
+    color:var(--text-color);
+    border-radius:5px;
+
+    position:absolute;
+    left: -100%;
+    margin-left:-5px;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+.input_text{
+    color:white;
+    font-family: var(--font);
+    background-color: var(--button-default-color);
+    border:none;
+    border-radius:5px;
+}
+.input_text:focus{
+    outline:2px solid var(--text-color);
+}
+.button{
+    color:var(--text-color);
+    background-color: var(--button-default-color);
+    font-family: var(--font);
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+.button:hover{
+    background-color: var(--button-hover-color);
+}
+.button:active{
+    background-color: var(--button-active-color);
+}
+
+.justify_center{
+    justify-content:center;
+    display: flex;
+}
+.justify_space_around{
+    justify-content:space-around;
+    display: flex;
+}
+.login_text_tag{
+    font-size:18px;
+    text-align:left;
+    margin-left:5%;
+}
+.login_input{
+    height:20px;
+    width:90%;
+    /*margin-left: 5%;*/
+}
+.login_submit{
+    font-size: 15px;
+    width:50%;
+    height:25px;
+    margin:5px;
+}
+
+.logout_changepw_btn{
+    width:90px;
+    margin:2.5px;
+    height:45px;
+    font-size:15px;
+    text-align: center;
+}
