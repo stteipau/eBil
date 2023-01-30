@@ -1,3 +1,0 @@
-Erstellung Webseite für Tagebucheinträge (Login und Tagebucheinträge selbst)
-+design login-seite
-ca 3h

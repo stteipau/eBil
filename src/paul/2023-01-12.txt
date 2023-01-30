@@ -1,1 +1,0 @@
-Abfrage der Passwörter von der Datenbank statt von Dateien

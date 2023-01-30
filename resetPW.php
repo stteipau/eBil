@@ -1,6 +1,7 @@
-<html><!--#2aeaa8;#1e1e1e-->
+<html>
+
 <head>
-    <title>Login eBil</title>
+    <title>Passwort zurücksetzen</title>
 </head>
 <style>
     body{
@@ -35,6 +36,7 @@
         margin-right: auto;
         font-size:20px;
         text-align:left;
+        margin-top:4px;
     }
     .text-input{
         background-color:#3c3c3c;
@@ -78,56 +80,50 @@
 <a href="http://10.10.30.40/">
     <img class="logo-img" src="src/logo.PNG">
 </a>
+
 <div class="container">
     <form name="form" action="" method="post">
-        <div class="text-tag" style="margin-top:30px;">Benutzername:</div>
-        <input class="text-input" type="text" name="user" id="user" value=""><br>
-        <div class="text-tag">Kennwort:</div>
-        <input class="text-input" type="password" name="passwd" id="passwd" value="">
-        <br>
-        <input class="login-btn" type="submit" value="Login">
+        <div class="text-tag" style="margin-top:10px">Benutzername</div>
+        <input class="text-input" value="<?php echo $_COOKIE["user"];?>" name="user" id="user" required>
+
+        <div class="text-tag"> Altes Passwort: </div>
+        <input class="text-input" type="password" name="oldPW" id="oldPW" required>
+
+        <div class="text-tag" style="margin-top:15px"> Neues Passwort: </div>
+        <input class="text-input" type="password" name="newPW1" id="newPW1" required>
+        <div class="text-tag">Passwort wiederholen:</div>
+        <input class="text-input" type="password" name="newPW2" id="newPW2" required>
+        <input style="margin-top:12px;" class="login-btn" type="submit" name="sub" id="sub" value="Bestätigen">
     </form>
-
-    <?php
-    require 'src/functions.php';
-    //echo "Hallo!";
-    if(isset($_COOKIE['user']) && isset($_COOKIE['passwd']) &&  check($_COOKIE['user'],$_COOKIE['passwd'],false)){
-        //echo "Hilfe";
-        header("Location:notes.php");
-        exit();
-    }else{
-        //echo "Hilfe2";
-        if(isset($_POST['user']) && isset($_POST['passwd']) && check($_POST['user'],$_POST['passwd'],true)){
-            setcookie('user', $_POST['user'], time()+ 60*60*24*1);
-            setcookie('passwd', crypt($_POST['passwd'],getUserSalt($_POST['user'])), time()+ 60*60*24*1);
-            header("Location:notes.php");
-            exit();
-        }else{
-            if(isset($_POST['user']) && isset($_POST['passwd'])){
-                echo '<div style="color:#e60000;">Passwort oder Benutzername stimmt nicht</div>';
-            }
-        }
-    }
-
-    //echo 'Inhalt des Post:'.$_POST['passwd'].'+'.$_POST['user'];
-    //echo '<br>';
-    //fwrite($myFile, "\n");
-    //echo file_get_contents($filePath);
-    //fclose($filePath);
-    //echo 'Hallo Welt<br>';
-
-    ?>
-</div>
-
-
+    <div>
 </body>
+
+<?php
+require 'src/functions.php';
+//username per POST übergeben
+if(isset($_POST["oldPW"]) && isset($_POST["newPW1"]) && isset($_POST["newPW2"]) && isset($_POST["user"])){
+    $oldPW = $_POST["oldPW"];
+    $newPW1 = $_POST["newPW1"];
+    $newPW2 = $_POST["newPW2"];
+    $username = $_POST["user"];
+
+    //altes PW richtig?
+    if(check($username, $oldPW,true)){
+        //neue PW's gleich?
+        if(strcmp($newPW1, $newPW2) == 0){
+            //Passwort reset
+            if(pwReset($username, $newPW1)){
+                echo "Passwort wurde erfolgreich zurückgesetzt!";
+            }else{
+                echo "Es ist ein Fehler aufgetreten!";
+            }
+        }else{
+            echo "PW'S UNGLEICH!";
+        }
+    }else{
+        echo "FALSCHES PW!";
+    }
+}
+?>
+
 </html>
-
-
-<!--
-attribut action="index.php"
-postet di informationen dorthin!!!!
-
--> wichtig für "angemeldet bleiben"-Button
-
--->

@@ -1,21 +1,39 @@
 <html>
-    <head>
+<head>
 
-    </head>
+</head>
 
-    <body>
+<body>
 
-        <form name="form1" action="" method="post">
+</body>
 
-            <input id="in1" name="user" type="text">
-        </form>
-    </body>
+<?php
 
-    <?php
-        if(isset($_POST['user'])){
-            echo 'Post:'.$_POST['user'];
-        }else{
-            echo 'Kein Post!';
+//echo "Hallo";
+$user = "noah";
+$arr = scandir("src/".$user);
+//print_r($arr);
+//echo count($arr);
+for($i=0;$i<count($arr);$i++){
+    //echo $arr[$i]."<br>";
+    if(!is_dir($arr[$i])){
+        //echo $arr[$i]."<br>";
+
+        //Datei öffnen und in db Schreiben
+        $filepath = "src/".$user."/".$arr[$i];
+
+        $myfile = fopen($filepath, "r");
+        $text = fread($myfile,filesize($filepath));
+        if($text != ""){
+            //echo $filepath."<br>";
+            //echo $text;
+            //echo $arr[$i]."<br>";
+            echo "INSERT INTO Notes Values('".$user."','".explode(".",$arr[$i])[0]."','".$text."');";
+            echo "<br>";
         }
-    ?>
+    }
+}
+
+
+?>
 </html>
