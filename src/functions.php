@@ -68,4 +68,27 @@ function getUserSalt($username){
     }
     return "xxx";
 }
+
+
+function fetchData($username, $date){
+    $db = new mysqli("10.10.30.40","root","Kennwort0","website");       //Array ( [0] => Array ( [0] => damian [1] => 2022-11-16 [2] => Vorlage Sponsorengeld Anfrage ) [1] => Array ( [0] => ...
+    print_r($db->connect_error);
+
+    if($username == null && $date == null){
+        //nach nichts filtern
+        $erg = $db->query("SELECT * from Notes");
+    }else if($username == null){
+        //nach datum filtern
+        $erg = $db->query("SELECT username, text from Notes WHERE date = '" . $date ."'");
+    }else if($date == null){
+        //nach username filtern
+        $erg = $db->query("SELECT date, text from Notes WHERE username = '" . $username ."'");
+    }else{
+        //nach beiden filtern
+        $erg = $db->query("SELECT text from Notes WHERE username = '" . $username ."' AND date = '" . $date ."'");
+    }
+
+    $data = $erg->fetch_all();
+    return $data;
+}
 ?>

@@ -4,6 +4,12 @@ require 'src/functions.php';
 if(!check($_COOKIE['user'],$_COOKIE['passwd'],false)){
     header("Location:login.php");
     exit();
+}else{
+    //pw approved
+    if($_COOKIE['user'] == "teacher"){
+        header("Location:notes_overview.php");
+        exit();
+    }
 }
 ?>
 <head>
