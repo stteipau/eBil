@@ -1,28 +1,18 @@
 <?php
-function checkf($userStr,$passwdStr){
-    $handle = fopen("src/loginData.txt", "r");
-    if($handle){
-        while (($line = fgets($handle)) !== false) {
-            $username = explode(';',$line)[0];
-            $passwd = explode("\n",explode(";",$line)[1])[0];
-            if($username === $userStr && $passwd == $passwdStr){
-                return true;
-            }
-        }
-        fclose($handle);
-    }
-    return false;
-}
-
-function check($userStr,$passwdStr,$hashIt){
+function check($userStr, $passwdStr, $hashIt){
     $db = new mysqli("10.10.30.40","root","Kennwort0","website");
     print_r($db->connect_error);
 
-    $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$userStr."');";
-    $erg = $db->query($str);
+    //$str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$userStr."');";
+    $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER(?);";
+    $stmt = $db->prepare($str);
+    $stmt->bind_param("s", $userStr);
+    $stmt->execute();
+
+    $erg = $stmt->get_result();
 
     if($erg->num_rows > 0){
-        $datensatz=$erg->fetch_assoc();
+        $datensatz = $erg->fetch_assoc();
         //Vergleichen
         $inHash = $passwdStr;
         if($hashIt == true){
@@ -30,10 +20,13 @@ function check($userStr,$passwdStr,$hashIt){
         }
 
         if($inHash === $datensatz['pwHash']){
+            $db->close();
+            $stmt->close();
             return true;
         }
     }
-
+    $db->close();
+    $stmt->close();
     return false;
 }
 function pwReset($userStr, $passwdStr){
@@ -41,32 +34,51 @@ function pwReset($userStr, $passwdStr){
     print_r($db->connect_error);
 
     //Der Username muss theoretisch eingetragen sein (dennoch überprüfen mit der folgenden if)
-    $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$userStr."');";
-    $erg = $db->query($str) or die ($db->error);
+    $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER(?);";
+    $stmt = $db->prepare($str);
+    $stmt->bind_param("s", $userStr);
+    $stmt->execute();
+
+    $erg = $stmt->get_result();
 
     if($erg->num_rows > 0){
         //Salt und PW ändern
         $newSalt = substr("./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", mt_rand(0, 63), 3);       //random salt generieren (mit länge 5)
         $inHash = crypt($passwdStr, $newSalt);
         //salt und pw in db schreiben
-        $db->query("UPDATE LoginData SET pwHash = '" . $inHash . "', salt = '" . $newSalt . "' WHERE LOWER(username) LIKE LOWER('" . $userStr . "');");
-        return true;
+        $stmt = $db->prepare("UPDATE LoginData SET pwHash = ?, salt = ? WHERE LOWER(username) LIKE LOWER(?);");
+        $stmt->bind_param("sss", $inHash, $newSalt, $userStr);
+        $stmt->execute();
+        $db->close();
+        $stmt->close();
+        $res = true;
     }else{
-        return false;
+        $res = false;
     }
+    $db->close();
+    $stmt->close();
+    return $res;
 }
 function getUserSalt($username){
     $db = new mysqli("10.10.30.40","root","Kennwort0","website");
     print_r($db->connect_error);
 
-    $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER('".$username."');";
-    $erg = $db->query($str);
+    $str = "SELECT * from LoginData WHERE LOWER(username) LIKE LOWER(?);";
+    $stmt = $db->prepare($str);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+
+    $erg = $stmt->get_result();
 
     if($erg->num_rows > 0){
-        $datensatz=$erg->fetch_assoc();
+        $datensatz = $erg->fetch_assoc();
+        $db->close();
+        $stmt->close();
         return $datensatz['salt'];
     }
-    return "xxx";
+    $db->close();
+    $stmt->close();
+    return "false";
 }
 
 
@@ -79,16 +91,29 @@ function fetchData($username, $date){
         $erg = $db->query("SELECT * from Notes");
     }else if($username == null){
         //nach datum filtern
-        $erg = $db->query("SELECT username, text from Notes WHERE date = '" . $date ."'");
+        $str = "SELECT username, text from Notes WHERE date = ?;";
+        $stmt = $db->prepare($str);
+        $stmt->bind_param("s", $date);
+        $stmt->execute();
+        $erg = $stmt->get_result();
     }else if($date == null){
         //nach username filtern
-        $erg = $db->query("SELECT date, text from Notes WHERE username = '" . $username ."'");
+        $str = "SELECT date, text from Notes WHERE username = ?;";
+        $stmt = $db->prepare($str);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $erg = $stmt->get_result();
     }else{
         //nach beiden filtern
-        $erg = $db->query("SELECT text from Notes WHERE username = '" . $username ."' AND date = '" . $date ."'");
+        $str = "SELECT text from Notes WHERE username = ? AND date = ?;";
+        $stmt = $db->prepare($str);
+        $stmt->bind_param("ss", $username, $date);
+        $stmt->execute();
+        $erg = $stmt->get_result();
     }
-
     $data = $erg->fetch_all();
+    $db->close();
+    $stmt->close();
     return $data;
 }
 ?>

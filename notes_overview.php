@@ -12,7 +12,7 @@ if(!check($_COOKIE['user'],$_COOKIE['passwd'],false)){
 </head>
 
 <?php
-    //alle Möglichkeiten
+    //alle Möglichkeiten (return array mit allen daten: z.B. Array[0][username])
     $bothFilter = fetchData("joseph", "2022-12-07");
     $userFilter = fetchData("joseph", null);
     $dateFilter = fetchData(null, "2022-12-07");
