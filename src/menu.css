@@ -1,11 +1,11 @@
   #menu__toggle {
     opacity: 0;
   }
-  #menu__toggle:checked + .menu__btn > span {
+  #menu__toggle:checked ~ .menu__btn > span {
     /*top:15px;*/
     transform: rotate(45deg) translate(5px,10px);
   }
-  #menu__toggle:checked + .menu__btn > span::before {
+  #menu__toggle:checked  ~ .menu__btn > span::before {
     top: 0;
     transform: rotate(0deg);
 
@@ -65,9 +65,21 @@
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: none !important;
     transition-duration: .5s;
   }
   .menu__item:hover {
     background-color: #CFD8DC;
+    background-color: var(--dark-grey);
+    color:var(--company-color);
+  }
+  .menu__btn__background{
+    margin-left:19px;
+    margin-top:3px;
+    width:52px;
+    height:50px;
+    background-color: var(--company-color);
+    border-radius: var(--default-border-radius);
+    position:fixed;
+    float:top;
   }
