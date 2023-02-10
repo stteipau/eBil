@@ -13,10 +13,23 @@ firmen-farbe:#318890
     --button-default-color:#3c3c3c;
     --login-window-width:200px;
     --company-color:#318890;
+    --company-color-hover:#33777d;
+    --company-color-active:#316367;
     --default-border-radius:3px;
+    --white-text:rgb(227, 227, 227);
 }  
+@font-face { 
+    font-family:Franklin Gothic Medium;
+    src:url(./fonts/franklinGothikMedium.ttf); 
+}
 .hidden{
     display: none;
+}
+.body{
+    background-color:#1e1e1e;
+    color:#00e6ac;
+    font-family:'Franklin Gothic Medium';
+    margin:0;
 }
 .header{
     width:100%;
@@ -25,6 +38,9 @@ firmen-farbe:#318890
     margin:0;
     box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, .4);
     /*position:fixed;*/
+}
+.work_space{
+    margin-top:40px;
 }
 .acc_container{
     float:right;
@@ -40,6 +56,16 @@ firmen-farbe:#318890
     cursor: pointer;
     color: var(--dark-grey);
     font-weight: lighter;
+    height:100%;
+}
+.for_acc_toggle >div{
+    height:100%;
+    line-height: 55px;
+}
+@media (max-width: 500px){
+    .for_acc_toggle >div {
+        display:none;
+    }
 }
 .acc_toggle{
     opacity: 0;
@@ -85,6 +111,19 @@ firmen-farbe:#318890
 .button:active{
     background-color: var(--button-active-color);
 }
+.company_button{
+    color:var(--dark-grey);
+    background-color: var(--company-color);
+    border:none;
+    border-radius:var(--default-border-radius);
+    cursor:pointer;
+}
+.company_button:hover{
+    background-color: var(--company-color-hover);
+}
+.company_button:active{
+    background-color: var(--company-color-active);
+}
 
 .text_align_center{
     text-align: center;
@@ -95,6 +134,14 @@ firmen-farbe:#318890
 }
 .justify_space_around{
     justify-content:space-around;
+    display: flex;
+}
+.justify_space_between{
+    justify-content:space-between;
+    display: flex;
+}
+.justify_flex_start{
+    justify-content: flex-start;
     display: flex;
 }
 .login_text_tag{

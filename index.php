@@ -25,18 +25,18 @@
                 <a class="header_logo" href="/">
                     <img src="src/logo.PNG">
                 </a>
-                <div class="acc_container" onclick="console.log(document.getElementById('acc_toggle').checked);">
-                    <input class="acc_toggle" id="acc_toggle" type="checkbox"/>
-                    <label for="acc_toggle" class="for_acc_toggle">
-                        <?php
+                <div class="acc_container">
+                    <label for="acc_toggle" class="for_acc_toggle justify_space_around">
+                        <div><?php
                             if(isset($_COOKIE['user']) && isset($_COOKIE['passwd']) &&  check($_COOKIE['user'],$_COOKIE['passwd'],false) && !isset($_POST['logout'])){
                                 echo strtolower($_COOKIE['user']);
                             }else if(isset($_POST['user']) && isset($_POST['passwd']) && check($_POST['user'],$_POST['passwd'],true) && !isset($_POST['logout'])){
                                 echo strtolower($_POST['user']);
                             }
-                        ?>
+                        ?></div>
                         <img class="acc_svg" src="src/icons/icon_account.svg">
                     </label>
+                    <input class="acc_toggle" id="acc_toggle" type="checkbox"/>
 
                     <div class="login_window"><?php
                         if(isset($_POST['logout'])){//beim klick auf ausloggen Cookies löschen!
@@ -74,6 +74,12 @@
                     ?></div>
                 </div>
             </div>
+            <div class="work_space">
+            <!--=============================Content================================-->
+
+
+            <!--===========================Content Ende=============================-->
+            </div>
         </div>
         <div class="hamburger-menu">
             <input id="menu__toggle" type="checkbox" onchange="menuToggled(this.checked);"/>
@@ -83,10 +89,10 @@
             </label>
             <ul class="menu__box">
                 <li><a class="menu__item" href="#">Home</a></li>
-                <li><a class="menu__item" href="#">Produkt</a></li>
+                <li><a class="menu__item" href="/produkt.php">Produkt</a></li>
                 <li><a class="menu__item" href="/notes.php">Tagebuch</a></li>
-                <li><a class="menu__item" href="#">Entwicklung</a></li>
-                <li><a class="menu__item" href="#">About us</a></li>
+                <li><a class="menu__item" href="/entwicklung.php">Entwicklung</a></li>
+                <li><a class="menu__item" href="/aboutUs.php">About us</a></li>
             </ul>
         </div>
         <footer class="footer-ebil justify_space_around" id="footer">
@@ -98,7 +104,7 @@
                     <a href="mailto:ebilmotorsdevelopment@gmail.com">Kontakt</a>
                 </div>
                 <div class="col-md-4 col-sm-6 col-lg-4 footer-item">
-                    <a href="/">About us</a>
+                    <a href="/aboutUs.php">About us</a>
                 </div>
             </div>
         </footer>

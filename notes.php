@@ -83,26 +83,16 @@ if(!check($_COOKIE['user'],$_COOKIE['passwd'],false)){
     //echo 'date:'.$_POST['date'].'<br>';
     if(isset($_POST['text'])){
         $db = new mysqli("10.10.30.40","root","Kennwort0","website");
-        $str = "SELECT * FROM Notes WHERE username=? and date='".getCurrentDate()."'";
-        $stmt = $db->prepare($str);
-        $stmt->bind_param("s", $_COOKIE['user']);
-        $stmt->execute();
-        $erg = $stmt->get_result();
-
+        $str = "SELECT * FROM Notes WHERE username='".$_COOKIE['user']."' and date='".getCurrentDate()."'";
+        $erg = $db->query($str);
         if($erg->num_rows == 0){
             print_r($db->connect_error);
-            $str = "INSERT INTO Notes VALUES(LOWER(?),'".getCurrentDate()."',?);";
-            $stmt = $db->prepare($str);
-            $stmt->bind_param("ss", $_COOKIE['user'], $_POST['text']);
-            $stmt->execute();
+            $str = "INSERT INTO Notes VALUES(LOWER('". $_COOKIE['user']. "'),'".getCurrentDate() . "','".$_POST['text']."');";
+            $erg = $db->query($str);
         }else if($erg->num_rows == 1){
-            $str = "UPDATE Notes SET text=? WHERE username=? and date='".getCurrentDate()."';";
-            $stmt = $db->prepare($str);
-            $stmt->bind_param("ss", $_COOKIE['text'], $_POST['user']);
-            $stmt->execute();
+            $str = "UPDATE Notes SET text='".$_POST['text']. "' WHERE username='".$_COOKIE['user']."' and date='".getCurrentDate()."';";
+            $erg = $db->query($str);
         }
-        $db->close();
-        $stmt->close();
     }
     function getCurrentDate(){
         if(isset($_POST['date']) && DateTime::createFromFormat('Y-m-d', $_POST['date']) !== false && $_POST['date']>='2022-11-16'){
@@ -119,17 +109,12 @@ if(!check($_COOKIE['user'],$_COOKIE['passwd'],false)){
         <textarea class="tagebucheintrag" name="text" id="text" rows="30" cols="100"><?php
             //Richrige Dateipfad zusammenschuastern
             $db = new mysqli("10.10.30.40","root","Kennwort0","website");
-            $str = "SELECT * FROM Notes WHERE username=? and date='".getCurrentDate()."'";
-            $stmt = $db->prepare($str);
-            $stmt->bind_param("s", $_COOKIE['user']);
-            $stmt->execute();
-            $erg = $stmt->get_result();
+            $str = "SELECT * FROM Notes WHERE username='".$_COOKIE['user']."' and date='".getCurrentDate()."'";
+            $erg = $db->query($str);
             if($erg->num_rows > 0){
                 $datensatz=$erg->fetch_assoc();
                 echo $datensatz['text'];
             }
-            $db->close();
-            $stmt->close();
             ?></textarea>
         <input class="hidden" type="date" value="<?php echo getCurrentDate();?>" name="cDate" id="cDate">
         <br>

@@ -88,7 +88,7 @@ function fetchData($username, $date){
 
     if($username == null && $date == null){
         //nach nichts filtern
-        $erg = $db->query("SELECT * from Notes");
+        $erg = $db->query("SELECT * from Notes;");
     }else if($username == null){
         //nach datum filtern
         $str = "SELECT username, text from Notes WHERE date = ?;";
@@ -113,7 +113,7 @@ function fetchData($username, $date){
     }
     $data = $erg->fetch_all();
     $db->close();
-    $stmt->close();
+    if($stmt)$stmt->close();
     return $data;
 }
 ?>
